@@ -1,4 +1,4 @@
-let newYorkCoords = [40.73, -74.0059];
+let newYorkCoords = [40.73, -74.0059]; 
 let mapZoomLevel = 12;
 
 // set up the citi bike url:
