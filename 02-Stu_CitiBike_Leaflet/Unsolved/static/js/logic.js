@@ -1,7 +1,7 @@
-var newYorkCoords = [40.73, -74.0059];
-var mapZoomLevel = 12;
+let newYorkCoords = [40.73, -74.0059];
+let mapZoomLevel = 12;
 
-// 
+// set up the citi bike url:
 let citi_bike_url = "https://gbfs.citibikenyc.com/gbfs/en/station_information.json"
 
 // Create the createMap function.
@@ -11,17 +11,13 @@ function createMap(bikeStations) {
   let street =L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 
-  var topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-    });
-
-   // Create an baseMaps object to hold the base.
-  var baseMaps = {
+  // Create an baseMaps object to hold the base.
+  let baseMaps = {
     "Street Map": street 
     };
  
   // Create an overlayMaps object to hold the bikeStations layer.
-  var overlayMaps = {
+  let overlayMaps = {
     "Bike stations": bikeStations
   }
 
@@ -56,18 +52,16 @@ function createMarkers(response) {
 
       // Add a new marker to the cluster group, and bind a popup.
       markers.push(L.marker([stations[i].lat, stations[i].lon])  
-        .bindPopup(`Name: ${stations[i].name}, capacity: ${stations[i].capacity}`));
+        .bindPopup(`<h3>Name:${stations[i].name}</h3> <h3>Capacity: ${stations[i].capacity}</h3>`));
     }
-    console.log("markers", markers)
+
   // Create a layer group that's made from the bike markers array, and pass it to the createMap function.
   let newLayer = L.layerGroup(markers)
 
   createMap(newLayer); 
 }
 
-
 // Perform an API call to the Citi Bike API to get the station information. Call createMarkers when it completes.
 d3.json(citi_bike_url).then(function(response) {
-  console.log(response) 
   createMarkers(response)
 }); 
